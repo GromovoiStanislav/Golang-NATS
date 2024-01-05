@@ -7,3 +7,4 @@
 - 5 - Publish/Wildcard Subscriber simple example
 - 6 - Request/Reply simple example
 - 7 - Request/Reply with Protobuf simple example
+- 8 - Basic Usage simple example
