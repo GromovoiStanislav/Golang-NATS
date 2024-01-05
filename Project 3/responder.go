@@ -19,6 +19,8 @@ func main() {
 		// Обработка запроса и отправка ответа
 		response := "Ответ на ваш запрос"
 		nc.Publish(msg.Reply, []byte(response))
+		// or
+		//msg.Respond([]byte(response))
 		log.Printf("Получен запрос: %s, Отправлен ответ: %s\n", string(msg.Data), response)
 	})
 	select {}
