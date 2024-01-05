@@ -4,3 +4,4 @@
 - 2 - Publish/Wildcard Subscriber simple example
 - 3 - Request/Reply simple example
 - 4 - Publish/Subscribe simple example
+- 5 - Publish/Wildcard Subscriber simple example
