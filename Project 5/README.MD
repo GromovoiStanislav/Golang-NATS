@@ -11,7 +11,4 @@ go get github.com/nats-io/nats.go/
 
 ```bash
 go run main.go
-#or
-go run subscriber.go
-go run publisher.go
 ```
