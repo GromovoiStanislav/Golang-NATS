@@ -8,3 +8,4 @@
 - 6 - Request/Reply simple example
 - 7 - Request/Reply with Protobuf simple example
 - 8 - Basic Usage simple example
+- 9 - Queue Group simple example
