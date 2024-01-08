@@ -14,4 +14,5 @@ go run example-1.go // Async Subscriber
 go run example-2.go // Sync Subscriber
 go run example-3.go // Channel Subscriber
 go run example-4.go // Requests/Replies
+go run example-5.go // Wildcard Subscriptions
 ```
