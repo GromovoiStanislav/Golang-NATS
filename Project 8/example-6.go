@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/nats-io/nats.go"
-	"github.com/nats-io/nats.go/api/jetstream"
 )
 
 func main() {
@@ -18,24 +18,50 @@ func main() {
 	// connect to nats server
 	nc, _ := nats.Connect(url)
 
-	// create jetstream context from nats connection
-	js, _ := jetstream.New(nc)
+	c, _ := nats.NewEncodedConn(nc, nats.JSON_ENCODER)
+	defer c.Close()
 
-	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
-	defer cancel()
 
-	// get existing stream handle
-	stream, _ := js.Stream(ctx, "foo")
-
-	// retrieve consumer handle from a stream
-	cons, _ := stream.Consumer(ctx, "cons")
-
-	// consume messages from the consumer in callback
-	cc, _ := cons.Consume(func(msg jetstream.Msg) {
-		fmt.Println("Received jetstream message: ", string(msg.Data()))
-		msg.Ack()
+	// Simple Async Subscriber
+	sub, _ := c.Subscribe("foo", func(s string) {
+		fmt.Printf("Received a message: %s\n", s)
 	})
-	defer cc.Stop()
+	// Simple Publisher
+	c.Publish("foo", "Hello World")
+
+
+	// EncodedConn can Publish any raw Go type using the registered Encoder
+	type person struct {
+		Name     string
+		Address  string
+		Age      int
+	}
+	// Go type Subscriber
+	c.Subscribe("hello", func(p *person) {
+		fmt.Printf("Received a person: %+v\n", p)
+	})
+	me := &person{Name: "derek", Age: 22, Address: "140 New Montgomery Street, San Francisco, CA"}
+	// Go type Publisher
+	c.Publish("hello", me)
+
+
+
+	// Replying
+	c.Subscribe("help", func(subj, reply string, msg string) {
+		c.Publish(reply, "I can help!")
+	})
+	// Requests
+	var response string
+	err := c.Request("help", "help me", &response, 10*time.Millisecond)
+	if err != nil {
+		fmt.Printf("Request failed: %v\n", err)
+	}
+	fmt.Printf("Received a answer: %s\n", string(response))
+	
+
+
+	// Unsubscribe
+	sub.Unsubscribe()
 
 	select {}
 }
