@@ -16,4 +16,5 @@ go run example-3.go // Channel Subscriber
 go run example-4.go // Requests/Replies
 go run example-5.go // Wildcard Subscriptions
 go run example-6.go // Encoded Connections
+go run example-7.go // Encoded Connections using channels
 ```
