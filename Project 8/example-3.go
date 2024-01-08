@@ -16,7 +16,7 @@ func main() {
 	}
 
 	nc, _ := nats.Connect(url)
-	defer nc.Drain()
+	defer nc.Close()
 
 	// Channel Subscriber
 	ch := make(chan *nats.Msg, 64)
@@ -31,6 +31,9 @@ func main() {
 
 	msg := <- ch
 	fmt.Printf("Received a message: %s\n", string(msg.Data))
+
+	// Drain
+	sub.Drain()
 
 	// Unsubscribe
 	sub.Unsubscribe()
