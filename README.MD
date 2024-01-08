@@ -9,3 +9,4 @@
 - 7 - Request/Reply with Protobuf simple example
 - 8 - Basic Usage simple example
 - 9 - Queue Group simple example
+- 10 - JetStream simple example
